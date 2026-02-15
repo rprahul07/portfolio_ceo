@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { useInView } from "framer-motion";
+import TestimonialCard from "./TestimonialCard";
 
 const testimonials = [
   {
@@ -52,97 +54,15 @@ const testimonials = [
   },
 ];
 
-const TestimonialCard = ({ testimonial, index }: { testimonial: any; index: number }) => {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      className="flex-shrink-0 w-[380px] h-[280px] bg-gray-100 rounded-2xl shadow-lg p-4 cursor-grab active:cursor-grabbing"
-    >
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 bg-gray-800 rounded-full border-2 border-purple-400" />
-        <div>
-          <div className="font-bold text-sm uppercase tracking-wider">
-            {testimonial.name}
-          </div>
-          <div className="text-xs text-gray-500">
-            {testimonial.handle}
-          </div>
-        </div>
-      </div>
-
-      {/* Review */}
-      <p className="text-sm text-gray-800 leading-relaxed mb-3">
-        {testimonial.review}
-      </p>
-
-      {/* Footer */}
-      <div className="text-xs text-gray-500 border-t pt-2">
-        <div>{testimonial.time}</div>
-        <div className="text-purple-600 font-bold uppercase tracking-wider">
-          {testimonial.event}
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
 const TestimonialSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const animationFrameRef = useRef<number>();
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
-  // Handle drag start (mousedown/touchstart)
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!containerRef.current) return;
-    
-    setIsDragging(true);
-    const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
-    setStartX(pageX);
-    setScrollLeft(containerRef.current.scrollLeft);
-    
-    // Cancel any ongoing animation frame
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
-  };
-
-  // Handle drag move (mousemove/touchmove)
-  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    e.preventDefault();
-    
-    const currentX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
-    const walk = (currentX - startX) * 1.5; // Adjust scroll speed multiplier
-    
-    // Use requestAnimationFrame for smooth scrolling
-    animationFrameRef.current = requestAnimationFrame(() => {
-      if (containerRef.current) {
-        containerRef.current.scrollLeft = scrollLeft - walk;
-      }
-    });
-  };
-
-  // Handle drag end (mouseup/mouseleave/touchend)
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    
-    // Cancel animation frame
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
-  };
-
-  // Clean up animation frame on unmount
+  // Auto-advance cards
   useEffect(() => {
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
+    const interval = setInterval(() => {
+      setCurrentCardIndex((prev) => (prev + 1) % testimonials.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -151,52 +71,110 @@ const TestimonialSection = () => {
       className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{
         background:
-          "linear-gradient(135deg, #4b1f7a 0%, #6a2fcf 45%, #8b5cf6 100%)",
+          "radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.3), transparent 50%), radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.3), transparent 50%), linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)",
       }}
     >
+      {/* Animated background particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-purple-400 rounded-full"
+            animate={{
+              x: [0, Math.random() * 200 - 100],
+              y: [0, Math.random() * 200 - 100],
+              opacity: [0, 1, 0]
+            }}
+            transition={{
+              duration: 5 + Math.random() * 5,
+              repeat: Infinity,
+              delay: Math.random() * 5
+            }}
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`
+            }}
+          />
+        ))}
+      </div>
+      
       {/* Heading */}
-      <h1 className="text-white text-7xl tracking-[0.4em] mb-16 font-black">
-        TESTIMONIALS
-      </h1>
-
-      {/* Horizontal scrollable container */}
-      <div
-        ref={containerRef}
-        className="relative w-full max-w-6xl overflow-x-hidden scrollbar-hide"
-        style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          WebkitScrollbar: 'none' as any
-        }}
-        onMouseDown={handleDragStart}
-        onMouseMove={handleDragMove}
-        onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragEnd}
-        onTouchStart={handleDragStart}
-        onTouchMove={handleDragMove}
-        onTouchEnd={handleDragEnd}
+      <motion.h1 
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[0.4em] mb-12 sm:mb-16 font-black px-4"
       >
-        <div className="flex gap-6 px-8 py-4">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard 
-              key={index} 
-              testimonial={testimonial} 
-              index={index} 
-            />
-          ))}
-        </div>
+        TESTIMONIALS
+      </motion.h1>
+
+      {/* Cards Stack */}
+      <div className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl h-[350px] sm:h-[400px] flex items-center justify-center px-4">
+        {testimonials.map((testimonial, index) => {
+          const isActive = index === currentCardIndex;
+          const isVisible = index <= currentCardIndex;
+          
+          return (
+            <motion.div
+              key={index}
+              initial={{ 
+                opacity: 0,
+                rotate: -6,
+                scale: 0.8,
+                x: 100
+              }}
+              animate={{ 
+                opacity: isVisible ? 1 : 0,
+                rotate: isVisible ? -6 + (index * 3) : -6,
+                scale: isActive ? 1 : (1 - (currentCardIndex - index) * 0.1),
+                x: isVisible ? index * 15 : 100,
+                y: isVisible ? index * -20 : 0,
+                zIndex: isActive ? 10 : index
+              }}
+              transition={{ 
+                duration: 0.6,
+                type: "spring",
+                stiffness: 100,
+                damping: 20
+              }}
+              className="absolute"
+              style={{
+                width: '280px',
+                height: '320px',
+                left: '50%',
+                top: '50%',
+                marginLeft: '-140px',
+                marginTop: '-160px',
+              }}
+            >
+              <TestimonialCard 
+                name={testimonial.name}
+                review={testimonial.review}
+                index={index}
+                rotation={0}
+                isCenter={isActive}
+              />
+            </motion.div>
+          );
+        })}
       </div>
 
-      {/* Custom scrollbar hide styles */}
-      <style>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
+      {/* Navigation dots */}
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+        {testimonials.map((_, index) => (
+          <motion.button
+            key={index}
+            onClick={() => setCurrentCardIndex(index)}
+            className="h-2 rounded-full bg-white cursor-pointer"
+            animate={{
+              width: index === currentCardIndex ? 32 : 8,
+              opacity: index === currentCardIndex ? 1 : 0.3,
+              backgroundColor: index === currentCardIndex ? "#a855f7" : "#ffffff"
+            }}
+            transition={{ duration: 0.3 }}
+          />
+        ))}
+      </div>
     </section>
   );
 };

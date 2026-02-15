@@ -30,7 +30,7 @@ const ContactSection = () => {
       </h1>
 
    {/* Diamond Grid */}
-<div className="absolute top-40 left-1/2 -translate-x-1/2 opacity-60 pointer-events-none">
+<div className="absolute top-40 left-1/2 -translate-x-1/2 opacity-60 pointer-events-auto">
   <div className="flex flex-col space-y-[-20px]">
 
 
@@ -89,7 +89,7 @@ const ContactSection = () => {
 
 const Diamond = () => (
   <div
-    className="w-36 h-36 rounded-2xl rotate-45"
+    className="w-36 h-36 rounded-2xl rotate-45 transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/50 cursor-pointer"
     style={{
       background: "linear-gradient(145deg, #8b5cf6, #6d28d9)",
       boxShadow: "inset 0 12px 25px rgba(0,0,0,0.25)"
