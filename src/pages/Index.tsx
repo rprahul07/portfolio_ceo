@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroVideo from "@/components/HeroVideo";
 import Achievements from "@/components/Achievements";
-import EventDignitaries from "@/components/EventDignitaries";
 import EventSection from "@/components/EventSection";
 import TestimonialSection from "@/components/TestimonialSection";
 import ContactSection from "@/components/ContactSection";
@@ -325,8 +324,6 @@ const Index = () => {
       {/* ================= TESTIMONIALS ================= */}
       <TestimonialSection />
 
-      {/* ================= EVENT DIGNITARIES GALLERY ================= */}
-      <EventDignitaries />
 
       {/* ================= EVENTS ================= */}
       <EventSection />
