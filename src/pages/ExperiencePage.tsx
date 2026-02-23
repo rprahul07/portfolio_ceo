@@ -1,196 +1,228 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
+const experiences = [
+  {
+    id: 1,
+    title: "Founder",
+    company: "Lenient Tree",
+    description: "Lenient Tree is a student-driven Web3 & startup community focused on bridging the gap between education and industry. We enable students to gain real-world exposure through ideathons, hackathons, workshops, portfolio building, and direct collaboration with founders, investors, and ecosystem partners.",
+    color: "#a855f7",
+    icon: "🌱",
+    bgGradient: "linear-gradient(135deg, #2a124f 0%, #4c1d95 100%)",
+    tagline: "Bridging Education & Industry"
+  },
+  {
+    id: 2,
+    title: "School of Defense",
+    company: "Cyber Dojo 🛡️💻",
+    description: "A hands-on learning space to build real cybersecurity skills — from basics to advanced defense.\n\nLearn. Practice. Protect.",
+    color: "#10b981",
+    icon: "🛡️",
+    bgGradient: "linear-gradient(135deg, #064e3b 0%, #059669 100%)",
+    tagline: "Learn. Practice. Protect."
+  },
+  {
+    id: 3,
+    title: "Sales Manager (Intern)",
+    company: "XPayBack",
+    description: "Worked as an intern under Saboth (CMO, XPayBack), supporting R&D activities and market research.\n\nAbout XPayBack:\nXPayBack is a cashback and rewards platform for online and in-store purchases, offering guaranteed cashback through partner merchants along with payment solutions such as a prepaid card and an in-app digital wallet.",
+    color: "#3b82f6",
+    icon: "💳",
+    bgGradient: "linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)",
+    tagline: "Fintech & Support R&D"
+  }
+];
 
 const ExperiencePage = () => {
-  const experiences = [
-    {
-      title: "Senior Software Engineer",
-      company: "Tech Corp",
-      period: "2022 - Present",
-      description: "Leading development of scalable web applications and mentoring junior developers.",
-      technologies: ["React", "TypeScript", "Node.js", "AWS"]
-    },
-    {
-      title: "Full Stack Developer",
-      company: "StartupXYZ",
-      period: "2020 - 2022",
-      description: "Built and maintained multiple client projects from concept to deployment.",
-      technologies: ["Vue.js", "Python", "PostgreSQL", "Docker"]
-    },
-    {
-      title: "Frontend Developer",
-      company: "Digital Agency",
-      period: "2018 - 2020",
-      description: "Developed responsive websites and interactive user interfaces for various clients.",
-      technologies: ["JavaScript", "HTML/CSS", "React", "SASS"]
-    },
-    {
-      title: "Junior Developer",
-      company: "Web Solutions Inc",
-      period: "2017 - 2018",
-      description: "Assisted in development and maintenance of web applications.",
-      technologies: ["HTML", "CSS", "JavaScript", "jQuery"]
-    }
-  ];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 35,
+    restDelta: 0.001
+  });
+
+  // angular gap: 120 degrees keeps other cards far away
+  const gap = 120;
+
+  // We want the current card to be at 9 o'clock (180 degrees) relative to the center off-screen right
+  // rotation + current_card_angle = 180
+  // Card 0: angle 0 -> rotation start = 180
+  // Card 1: angle 120 -> rotation = 60
+  // Card 2: angle 240 -> rotation = -60
+  const rotation = useTransform(smoothProgress, [0, 1], [180, 180 - (experiences.length - 1) * gap]);
 
   return (
-    <section
-      className="min-h-screen w-full px-4 sm:px-6 py-12 sm:py-24 flex justify-center"
-      style={{
-        background: `
-          radial-gradient(
-            circle at top left,
-            rgba(0, 0, 0, 0.85),
-            transparent 55%
-          ),
-          radial-gradient(
-            circle at bottom right,
-            rgba(0, 0, 0, 0.85),
-            transparent 55%
-          ),
-          linear-gradient(
-            135deg,
-            #4b1f7a 0%,
-            #6a2fcf 45%,
-            #8b5cf6 100%
-          )
-        `,
-      }}
-    >
-      <div className="max-w-4xl w-full">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16"
+    <div ref={containerRef} className="relative min-h-[500vh] bg-[#050505] font-['Rajdhani']">
+      {/* Navbar Overlay */}
+      <nav className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent">
+        <button
+          onClick={() => navigate("/")}
+          className="w-12 h-12 rounded-full bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center text-white text-xl hover:bg-white/10 transition-all"
         >
-          <h1
-            className="font-display font-bold text-white mb-4"
-            style={{
-              fontSize: "clamp(2rem, 6vw, 4rem)", // Responsive from 32px to 64px
-              letterSpacing: "0.18em",
-            }}
-          >
-            EXPERIENCE
-          </h1>
-          <p className="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto px-4">
-            My professional journey through software development and technology innovation
-          </p>
-        </motion.div>
+          ←
+        </button>
+        <div className="flex items-center gap-2">
+          <span className="text-white font-['Orbitron'] tracking-[0.3em] text-[10px] opacity-40">EXPERIENCE ARCHIVE</span>
+        </div>
+      </nav>
 
-        {/* Experience Timeline */}
-        <div className="space-y-6 sm:space-y-8">
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="relative"
-            >
-              {/* Timeline Line - Hidden on mobile */}
-              {index < experiences.length - 1 && (
-                <div
-                  className="hidden sm:block absolute left-8 top-24 w-0.5 h-full"
-                  style={{
-                    background: "linear-gradient(to bottom, #8b5cf6, transparent)",
-                  }}
-                />
-              )}
+      {/* Sticky Background Glows */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-purple-600/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-blue-600/5 rounded-full blur-[150px]" />
+      </div>
 
-              <div className="flex gap-4 sm:gap-8">
-                {/* Timeline Dot */}
-                <div
-                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background: "linear-gradient(135deg, #6a2fcf, #8b5cf6)",
-                    boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)",
-                  }}
+      {/* Sticky Content Area */}
+      <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+
+        {/* Left Side: Content Box */}
+        <div className="w-full md:w-[45%] h-full flex flex-col justify-center px-8 md:pl-24 relative z-10">
+          <div className="relative w-full max-w-xl h-[70vh]">
+            {experiences.map((exp, index) => {
+              const start = index / experiences.length;
+              const end = (index + 1) / experiences.length;
+
+              const opacity = useTransform(smoothProgress,
+                [start - 0.1, start, end - 0.1, end],
+                [0, 1, 1, 0]
+              );
+
+              const y = useTransform(smoothProgress,
+                [start - 0.15, start, end - 0.15, end],
+                [100, 0, 0, -100]
+              );
+
+              return (
+                <motion.div
+                  key={exp.id}
+                  style={{ opacity, y }}
+                  className="absolute inset-0 flex flex-col justify-center"
                 >
-                  <span className="text-white font-bold text-sm sm:text-lg">
-                    {index + 1}
-                  </span>
-                </div>
-
-                {/* Experience Card */}
-                <div
-                  className="flex-1 bg-black bg-opacity-50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-purple-500 border-opacity-20"
-                >
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
-                    <div>
-                      <h3 className="text-white text-xl sm:text-2xl font-bold mb-2">
-                        {exp.title}
-                      </h3>
-                      <p className="text-purple-400 text-base sm:text-lg font-semibold">
-                        {exp.company}
-                      </p>
-                    </div>
-                    <span className="text-gray-400 text-xs sm:text-sm whitespace-nowrap mt-2 sm:mt-0">
-                      {exp.period}
-                    </span>
-                  </div>
-
-                  <p className="text-gray-300 mb-4 leading-relaxed text-sm sm:text-base">
-                    {exp.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2">
-                    {exp.technologies.map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="px-2 sm:px-3 py-1 rounded-full text-xs font-medium"
-                        style={{
-                          background: "rgba(139, 92, 246, 0.2)",
-                          color: "#a78bfa",
-                          border: "1px solid rgba(139, 92, 246, 0.3)",
-                        }}
-                      >
-                        {tech}
+                  <div className="space-y-8">
+                    <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
+                      <span className="text-xl">{exp.icon}</span>
+                      <span className="text-[10px] font-bold tracking-[0.3em] text-white/50 uppercase font-['Orbitron']">
+                        {exp.tagline}
                       </span>
-                    ))}
+                    </div>
+
+                    <div className="space-y-3">
+                      <h2 className="text-white font-['Orbitron'] font-black leading-[1.1]" style={{ fontSize: "clamp(2.5rem, 4.5vw, 4rem)" }}>
+                        {exp.title}
+                      </h2>
+                      <h3 className="text-white font-['Orbitron'] font-bold tracking-tight opacity-70" style={{ fontSize: "clamp(1.2rem, 2.5vw, 2rem)" }}>
+                        {exp.company}
+                      </h3>
+                    </div>
+
+                    <div className="max-w-lg space-y-5">
+                      {exp.description.split('\n\n').map((para, i) => (
+                        <p key={i} className="text-gray-400 text-base md:text-lg leading-relaxed font-medium">
+                          {para}
+                        </p>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center gap-4 pt-6">
+                      <div className="h-0.5 w-12 rounded-full" style={{ background: exp.color }} />
+                      <span className="text-[10px] font-bold tracking-widest text-white/30 font-['Orbitron']">0{exp.id}</span>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Back Button */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-center mt-12 sm:mt-16"
-        >
-          <Link
-            to="/#achievements"
-            className="inline-flex items-center gap-2 px-4 sm:px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 text-sm sm:text-base"
-            style={{
-              background: "linear-gradient(135deg, #6a2fcf, #8b5cf6)",
-              color: "white",
-              boxShadow: "0 4px 15px rgba(139, 92, 246, 0.4)",
-            }}
+        {/* Right Side: Straight Card on a Vertical Wheel */}
+        <div className="absolute right-[-60vw] top-1/2 -translate-y-1/2 w-[110vw] h-[110vw] pointer-events-none">
+          <motion.div
+            style={{ rotate: rotation }}
+            className="relative w-full h-full rounded-full"
           >
-            <svg
-              className="w-4 h-4 sm:w-5 sm:h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            Back to Achievements
-          </Link>
-        </motion.div>
+            {experiences.map((exp, index) => {
+              const angle = index * gap;
+              return (
+                <div
+                  key={exp.id}
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    width: "45vw",
+                    height: "32vw",
+                    maxWidth: "750px",
+                    maxHeight: "550px",
+                    // The trick: translateX spreads them along the radius, 
+                    // and nested rotate(-rotation - angle) keeps them upright
+                    transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(55vw)`,
+                  }}
+                >
+                  <motion.div
+                    // Dynamic counter-rotation to keep the card straight
+                    style={{ rotate: useTransform(rotation, r => -r - angle) }}
+                    className="w-full h-full rounded-[60px] overflow-hidden relative p-[2px]"
+                    style={{
+                      background: `linear-gradient(135deg, ${exp.color}44, transparent)`,
+                      backdropFilter: "blur(40px)",
+                      borderRadius: "60px"
+                    }}
+                  >
+                    <div className="w-full h-full rounded-[58px] bg-[#0a0a0a]/90 border border-white/10 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-grid-white/[0.02]" />
+
+                      <div className="absolute bottom-[-10%] right-[-5%] opacity-10 select-none pointer-events-none" style={{ color: exp.color }}>
+                        <span className="text-[30vw]">{exp.icon}</span>
+                      </div>
+
+                      <div className="absolute inset-0 p-16 flex flex-col justify-between z-10">
+                        <div className="flex justify-between items-start">
+                          <div className="w-24 h-24 rounded-[32px] flex items-center justify-center text-5xl" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", boxShadow: `0 0 60px ${exp.color}22` }}>
+                            {exp.icon}
+                          </div>
+                          <div className="font-['Orbitron'] text-white/10 text-8xl font-black italic">0{exp.id}</div>
+                        </div>
+
+                        <div className="space-y-6">
+                          <h4 className="text-white font-['Orbitron'] text-4xl font-bold tracking-tight">
+                            {exp.company}
+                          </h4>
+                          <div className="flex items-center gap-4">
+                            <div className="h-1.5 rounded-full" style={{ width: "80px", background: exp.color, boxShadow: `0 0 30px ${exp.color}` }} />
+                            <span className="text-[10px] font-bold tracking-[0.5em] text-white/30 font-['Orbitron'] uppercase">EXPERIENCE ARCHIVE</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="absolute inset-0 opacity-10" style={{ background: `radial-gradient(circle at top right, ${exp.color}, transparent)` }} />
+                    </div>
+                  </motion.div>
+                </div>
+              );
+            })}
+          </motion.div>
+          {/* Subtle arc visualization */}
+          <div className="absolute inset-[-5%] rounded-full border border-white/[0.02] border-dashed" />
+        </div>
       </div>
-    </section>
+
+      {/* Journey labels */}
+      <div className="fixed left-8 top-1/2 -translate-y-1/2 h-1/2 flex flex-col items-center justify-between z-50">
+        <span className="text-[8px] font-['Orbitron'] text-white/20 -rotate-90 origin-center">REF.2025</span>
+        <div className="w-[1px] h-full bg-white/5 relative">
+          <motion.div style={{ scaleY: smoothProgress, transformOrigin: "top" }} className="absolute inset-0 bg-white/30" />
+        </div>
+        <span className="text-[8px] font-['Orbitron'] text-white/20 -rotate-90 origin-center">JOURNEY</span>
+      </div>
+    </div>
   );
 };
 
