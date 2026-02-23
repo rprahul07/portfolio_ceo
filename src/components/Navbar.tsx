@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-const navItems = ["HOME", "ACHIEVEMENTS", "EVENT", "TESTIMONIALS", "MORE"];
+const navItems = ["HOME", "ACHIEVEMENTS", "TESTIMONIALS", "DIGNITARIES", "EVENT"];
 
 const Navbar = () => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <>
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
@@ -28,7 +28,7 @@ const Navbar = () => {
       >
         <motion.div
           className="relative flex items-center justify-center px-8 py-4 rounded-full border backdrop-blur-xl overflow-hidden gap-8"
-          style={{ 
+          style={{
             backgroundColor: scrolled ? "hsl(260 20% 8% / 0.9)" : "hsl(260 20% 5% / 0.6)",
             borderColor: "rgba(139, 92, 246, 0.3)"
           }}
@@ -36,7 +36,7 @@ const Navbar = () => {
           transition={{ duration: 0.3 }}
         >
           {/* Animated background gradient */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 opacity-0"
             style={{
               background: "linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1))"
@@ -44,7 +44,7 @@ const Navbar = () => {
             whileHover={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
           />
-          
+
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -54,7 +54,7 @@ const Navbar = () => {
               to="/"
               className="relative font-display text-xl font-bold tracking-[0.25em] text-foreground transition-all duration-300 z-10"
             >
-              <motion.span 
+              <motion.span
                 className="text-primary inline-block"
                 animate={{ rotate: [0, 5, -5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, repeatDelay: 3 }}
@@ -74,103 +74,45 @@ const Navbar = () => {
           {/* Center Menu */}
           <ul className="hidden md:flex items-center gap-8 relative z-10">
             {navItems.map((item, index) => (
-              <motion.li 
+              <motion.li
                 key={item}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index, duration: 0.5 }}
               >
-                {item === "HOME" ? (
-                  <motion.a
-                    href="#"
-                    className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
-                    style={{
-                      color:
-                        hoveredItem === item
-                          ? "hsl(270 20% 95%)"
-                          : "hsl(270 20% 95% / 0.75)",
-                    }}
-                    onMouseEnter={() => setHoveredItem(item)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {item}
-                    {/* Animated underline */}
-                    <motion.span
-                      className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: hoveredItem === item ? "100%" : "0%" }}
-                      transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-                    />
-                    {/* Glow effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
-                      animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.a>
-                ) : item === "EVENT" ? (
-                  <motion.a
-                    href="#event"
-                    className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
-                    style={{
-                      color:
-                        hoveredItem === item
-                          ? "hsl(270 20% 95%)"
-                          : "hsl(270 20% 95% / 0.75)",
-                    }}
-                    onMouseEnter={() => setHoveredItem(item)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {item}
-                    {/* Animated underline */}
-                    <motion.span
-                      className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: hoveredItem === item ? "100%" : "0%" }}
-                      transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-                    />
-                    {/* Glow effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
-                      animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.a>
-                ) : (
-                  <motion.a
-                    href={`#${item.toLowerCase()}`}
-                    className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
-                    style={{
-                      color:
-                        hoveredItem === item
-                          ? "hsl(270 20% 95%)"
-                          : "hsl(270 20% 95% / 0.75)",
-                    }}
-                    onMouseEnter={() => setHoveredItem(item)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {item}
-                    {/* Animated underline */}
-                    <motion.span
-                      className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: hoveredItem === item ? "100%" : "0%" }}
-                      transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-                    />
-                    {/* Glow effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
-                      animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.a>
-                )}
+                <motion.a
+                  href={
+                    item === "HOME" ? "#" :
+                      item === "DIGNITARIES" ? "#event-dignitaries" :
+                        `#${item.toLowerCase()}`
+                  }
+                  className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
+                  style={{
+                    color:
+                      hoveredItem === item
+                        ? "hsl(270 20% 95%)"
+                        : "hsl(270 20% 95% / 0.75)",
+                  }}
+                  onMouseEnter={() => setHoveredItem(item)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {item}
+                  {/* Animated underline */}
+                  <motion.span
+                    className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: hoveredItem === item ? "100%" : "0%" }}
+                    transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
+                  />
+                  {/* Glow effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
+                    animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </motion.a>
               </motion.li>
             ))}
           </ul>
@@ -199,7 +141,7 @@ const Navbar = () => {
               />
             </motion.a>
           </motion.div>
-          
+
           {/* Mobile menu button */}
           <motion.button
             className="md:hidden relative z-10 w-8 h-8 flex flex-col justify-center items-center gap-1"
@@ -208,7 +150,7 @@ const Navbar = () => {
           >
             <motion.span
               className="w-full h-0.5 bg-white rounded-full"
-              animate={{ 
+              animate={{
                 rotate: mobileMenuOpen ? 45 : 0,
                 y: mobileMenuOpen ? 6 : 0
               }}
@@ -221,7 +163,7 @@ const Navbar = () => {
             />
             <motion.span
               className="w-full h-0.5 bg-white rounded-full"
-              animate={{ 
+              animate={{
                 rotate: mobileMenuOpen ? -45 : 0,
                 y: mobileMenuOpen ? -6 : 0
               }}
@@ -230,7 +172,7 @@ const Navbar = () => {
           </motion.button>
         </motion.div>
       </motion.nav>
-      
+
       {/* Mobile menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -259,8 +201,8 @@ const Navbar = () => {
                     <a
                       href={
                         item === "HOME" ? "#" :
-                        item === "EVENT" ? "#event" : 
-                        `#${item.toLowerCase()}`
+                          item === "DIGNITARIES" ? "#event-dignitaries" :
+                            `#${item.toLowerCase()}`
                       }
                       className="font-display text-sm font-medium tracking-[0.15em] text-white/90 hover:text-white transition-colors duration-300 block py-2"
                       onClick={() => setMobileMenuOpen(false)}

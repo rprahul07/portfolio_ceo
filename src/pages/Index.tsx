@@ -322,14 +322,14 @@ const Index = () => {
       {/* ================= ACHIEVEMENTS ================= */}
       <Achievements />
 
+      {/* ================= TESTIMONIALS ================= */}
+      <TestimonialSection />
+
       {/* ================= EVENT DIGNITARIES GALLERY ================= */}
       <EventDignitaries />
 
       {/* ================= EVENTS ================= */}
       <EventSection />
-
-      {/* ================= TESTIMONIALS ================= */}
-      <TestimonialSection />
 
       {/* ================= CONTACT ================= */}
       <ContactSection />
