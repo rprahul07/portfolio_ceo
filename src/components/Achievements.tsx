@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 const achievements = [
   { text: "ENTREPRENEUR", clickable: true, route: "/entrepreneur", icon: "🚀" },
   { text: "EXPERIENCE", clickable: true, route: "/experience", icon: "💼" },
-  { text: "EVENT DIGNITARY", clickable: false, route: "/event-dignitaries", icon: "👥" },
+  { text: "EVENT DIGNITARY", clickable: true, route: "/#event", icon: "👥" },
 ];
 
 // ── Single card ───────────────────────────────────────────────────────────────
@@ -43,10 +43,10 @@ const AchievementCard = ({
       onClick={() => { if (item.clickable && item.route) window.location.href = item.route; }}
       style={{
         position: "relative",
-        width: "180px",
-        height: "340px",
+        width: "220px",
+        height: "600px",
         flexShrink: 0,
-        borderRadius: "18px",
+        borderRadius: "22px",
         overflow: "hidden",
         cursor: item.clickable ? "pointer" : "default",
         border: hovered
@@ -120,11 +120,11 @@ const AchievementCard = ({
         transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
         style={{
           position: "absolute",
-          top: "20px",
+          top: "24px",
           left: 0,
           right: 0,
           textAlign: "center",
-          fontSize: "22px",
+          fontSize: "28px",
           zIndex: 2,
         }}
       >
@@ -146,7 +146,7 @@ const AchievementCard = ({
           style={{
             writingMode: "vertical-rl",
             transform: "rotate(180deg)",
-            fontSize: "36px",
+            fontSize: "42px",
             fontWeight: 900,
             letterSpacing: "0.22em",
             color: hovered ? "#ffffff" : item.clickable ? "#ffffff" : "#cfcfcf",

@@ -256,7 +256,7 @@ const Event = () => {
 
       {/* Carousel Container */}
       <div
-        className="relative w-full max-w-[1400px] h-[580px] flex items-center justify-center"
+        className="relative w-full max-w-[1400px] h-[700px] flex items-center justify-center"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -302,7 +302,7 @@ const Event = () => {
                     setBlurCardId(null);
                   }
                 }}
-                className="absolute w-80 h-[480px] rounded-3xl overflow-hidden cursor-pointer"
+                className="absolute w-80 h-[560px] rounded-3xl overflow-hidden cursor-pointer"
                 style={{
                   zIndex: slot.z,
                   transformStyle: "preserve-3d"
