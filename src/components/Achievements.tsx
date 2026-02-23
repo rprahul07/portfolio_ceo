@@ -4,9 +4,7 @@ import { useRef, useState } from "react";
 const achievements = [
   { text: "ENTREPRENEUR", clickable: true, route: "/entrepreneur", icon: "🚀" },
   { text: "EXPERIENCE", clickable: true, route: "/experience", icon: "💼" },
-  { text: "LEADERSHIP", clickable: false, route: "", icon: "👥" },
-  { text: "INNOVATION", clickable: false, route: "", icon: "💡" },
-  { text: "EXCELLENCE", clickable: false, route: "", icon: "⭐" },
+  { text: "EVENT DIGNITARY", clickable: false, route: "/event-dignitaries", icon: "👥" },
 ];
 
 // ── Single card ───────────────────────────────────────────────────────────────

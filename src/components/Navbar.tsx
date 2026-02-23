@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-const navItems = ["HOME", "ACHIEVEMENTS", "TESTIMONIALS", "DIGNITARIES", "EVENT"];
+const navItems = ["HOME", "ACHIEVEMENTS", "TESTIMONIALS", "DIGNITARIES", "EVENTS"];
 
 const Navbar = () => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -80,39 +80,127 @@ const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index, duration: 0.5 }}
               >
-                <motion.a
-                  href={
-                    item === "HOME" ? "#" :
-                      item === "DIGNITARIES" ? "#event-dignitaries" :
-                        `#${item.toLowerCase()}`
-                  }
-                  className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
-                  style={{
-                    color:
-                      hoveredItem === item
-                        ? "hsl(270 20% 95%)"
-                        : "hsl(270 20% 95% / 0.75)",
-                  }}
-                  onMouseEnter={() => setHoveredItem(item)}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {item}
-                  {/* Animated underline */}
-                  <motion.span
-                    className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: hoveredItem === item ? "100%" : "0%" }}
-                    transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-                  />
-                  {/* Glow effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
-                    animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </motion.a>
+                {item === "HOME" ? (
+                  <motion.a
+                    href="#"
+                    className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
+                    style={{
+                      color:
+                        hoveredItem === item
+                          ? "hsl(270 20% 95%)"
+                          : "hsl(270 20% 95% / 0.75)",
+                    }}
+                    onMouseEnter={() => setHoveredItem(item)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item}
+                    {/* Animated underline */}
+                    <motion.span
+                      className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: hoveredItem === item ? "100%" : "0%" }}
+                      transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
+                    />
+                    {/* Glow effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
+                      animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.a>
+                ) : item === "DIGNITARIES" ? (
+                  <motion.a
+                    href="#event-dignitaries"
+                    className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
+                    style={{
+                      color:
+                        hoveredItem === item
+                          ? "hsl(270 20% 95%)"
+                          : "hsl(270 20% 95% / 0.75)",
+                    }}
+                    onMouseEnter={() => setHoveredItem(item)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item}
+                    {/* Animated underline */}
+                    <motion.span
+                      className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: hoveredItem === item ? "100%" : "0%" }}
+                      transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
+                    />
+                    {/* Glow effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
+                      animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.a>
+                ) : item === "EVENTS" ? (
+                  <motion.a
+                    href="#event"
+                    className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
+                    style={{
+                      color:
+                        hoveredItem === item
+                          ? "hsl(270 20% 95%)"
+                          : "hsl(270 20% 95% / 0.75)",
+                    }}
+                    onMouseEnter={() => setHoveredItem(item)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item}
+                    {/* Animated underline */}
+                    <motion.span
+                      className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: hoveredItem === item ? "100%" : "0%" }}
+                      transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
+                    />
+                    {/* Glow effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
+                      animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.a>
+                ) : (
+                  <motion.a
+                    href={`#${item.toLowerCase()}`}
+                    className="font-display text-sm font-medium tracking-[0.15em] relative px-2 py-1"
+                    style={{
+                      color:
+                        hoveredItem === item
+                          ? "hsl(270 20% 95%)"
+                          : "hsl(270 20% 95% / 0.75)",
+                    }}
+                    onMouseEnter={() => setHoveredItem(item)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item}
+                    {/* Animated underline */}
+                    <motion.span
+                      className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: hoveredItem === item ? "100%" : "0%" }}
+                      transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
+                    />
+                    {/* Glow effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-purple-500 rounded-full blur-md opacity-0"
+                      animate={{ opacity: hoveredItem === item ? 0.2 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.a>
+                )}
               </motion.li>
             ))}
           </ul>
@@ -202,7 +290,8 @@ const Navbar = () => {
                       href={
                         item === "HOME" ? "#" :
                           item === "DIGNITARIES" ? "#event-dignitaries" :
-                            `#${item.toLowerCase()}`
+                            item === "EVENTS" ? "#event" :
+                              `#${item.toLowerCase()}`
                       }
                       className="font-display text-sm font-medium tracking-[0.15em] text-white/90 hover:text-white transition-colors duration-300 block py-2"
                       onClick={() => setMobileMenuOpen(false)}
