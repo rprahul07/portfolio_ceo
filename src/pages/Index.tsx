@@ -26,16 +26,16 @@ const Index = () => {
 
         {/* ── Hero content: left text + right photo ── */}
         <div
-          className="absolute inset-0 z-10 flex items-center"
-          style={{ padding: "0 6vw" }}
+          className="absolute inset-0 z-10 flex flex-col md:flex-row items-center justify-start md:justify-center px-[6vw] pt-32 md:pt-0"
         >
           {/* ── LEFT: Text ── */}
-          <div className="flex-1 flex flex-col justify-center pr-8">
+          <div className="flex-1 flex flex-col justify-center text-center md:text-left md:pr-8 mb-8 md:mb-0">
             {/* Eyebrow tag */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
+              className="mx-auto md:mx-0"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -79,7 +79,7 @@ const Index = () => {
               transition={{ duration: 0.7, delay: 0.35 }}
               className="font-display font-bold tracking-wider"
               style={{
-                fontSize: "clamp(3rem, 7vw, 6.5rem)",
+                fontSize: "clamp(2.5rem, 8vw, 6.5rem)",
                 lineHeight: 1.05,
                 marginBottom: "8px",
               }}
@@ -98,7 +98,7 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.45 }}
               className="font-display font-bold tracking-wider text-white"
-              style={{ fontSize: "clamp(1.8rem, 4vw, 4rem)", lineHeight: 1.1, marginBottom: "20px" }}
+              style={{ fontSize: "clamp(1.5rem, 5vw, 4rem)", lineHeight: 1.1, marginBottom: "20px" }}
             >
               TO ALL
             </motion.h2>
@@ -109,7 +109,7 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.55 }}
               className="font-display font-light tracking-widest"
-              style={{ fontSize: "clamp(1rem, 2.2vw, 1.6rem)", marginBottom: "40px" }}
+              style={{ fontSize: "clamp(0.9rem, 2.5vw, 1.6rem)", marginBottom: "30px" }}
             >
               <span className="text-purple-300">A</span>
               <span className="text-white">UGUSTINE </span>
@@ -122,9 +122,10 @@ const Index = () => {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.8, delay: 0.7 }}
+              className="mx-auto md:mx-0"
               style={{
                 height: "2px",
-                width: "160px",
+                width: "120px",
                 background: "linear-gradient(90deg, #a855f7, #ec4899, transparent)",
                 borderRadius: "999px",
                 marginBottom: "28px",
@@ -137,9 +138,10 @@ const Index = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.85 }}
+              className="mx-auto md:mx-0"
               style={{
                 color: "rgba(255,255,255,0.55)",
-                fontSize: "clamp(0.85rem, 1.4vw, 1.05rem)",
+                fontSize: "clamp(0.75rem, 1.6vw, 1.05rem)",
                 fontFamily: "monospace",
                 letterSpacing: "0.06em",
                 lineHeight: 1.7,
@@ -154,14 +156,15 @@ const Index = () => {
 
           {/* ── RIGHT: Photo with creative frame ── */}
           <motion.div
-            initial={{ opacity: 0, x: 60, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.4, type: "spring", stiffness: 80 }}
+            className="mt-4 md:mt-0"
             style={{
               position: "relative",
               flexShrink: 0,
-              width: "clamp(260px, 32vw, 480px)",
-              height: "clamp(340px, 42vw, 620px)",
+              width: "clamp(220px, 40vw, 480px)",
+              height: "clamp(280px, 50vw, 620px)",
               display: "flex",
               alignItems: "flex-end",
               justifyContent: "center",
@@ -173,7 +176,7 @@ const Index = () => {
               transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
               style={{
                 position: "absolute",
-                inset: "-18px",
+                inset: "-14px",
                 borderRadius: "38% 62% 55% 45% / 48% 40% 60% 52%",
                 border: "1.5px solid rgba(168,85,247,0.35)",
                 pointerEvents: "none",
@@ -186,7 +189,7 @@ const Index = () => {
               transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
               style={{
                 position: "absolute",
-                inset: "-6px",
+                inset: "-5px",
                 borderRadius: "55% 45% 38% 62% / 52% 60% 40% 48%",
                 border: "1px solid rgba(236,72,153,0.25)",
                 pointerEvents: "none",
@@ -228,6 +231,7 @@ const Index = () => {
 
             {/* Corner decoration — top right */}
             <div
+              className="hidden md:block"
               style={{
                 position: "absolute",
                 top: "12px",
@@ -241,6 +245,7 @@ const Index = () => {
             />
             {/* Corner decoration — bottom left */}
             <div
+              className="hidden md:block"
               style={{
                 position: "absolute",
                 bottom: "12px",
@@ -286,9 +291,9 @@ const Index = () => {
               style={{
                 position: "absolute",
                 top: "18px",
-                left: "-20px",
-                padding: "8px 14px",
-                borderRadius: "12px",
+                left: "-10px",
+                padding: "6px 10px",
+                borderRadius: "10px",
                 background: "rgba(15,12,41,0.85)",
                 backdropFilter: "blur(12px)",
                 border: "1px solid rgba(168,85,247,0.4)",
@@ -296,8 +301,8 @@ const Index = () => {
                 zIndex: 5,
               }}
             >
-              <p style={{ margin: 0, color: "#c084fc", fontSize: "10px", fontFamily: "monospace", letterSpacing: "0.15em", fontWeight: 800 }}>CEO</p>
-              <p style={{ margin: 0, color: "#fff", fontSize: "13px", fontWeight: 700 }}>Lenient Tree</p>
+              <p style={{ margin: 0, color: "#c084fc", fontSize: "9px", fontFamily: "monospace", letterSpacing: "0.15em", fontWeight: 800 }}>CEO</p>
+              <p style={{ margin: 0, color: "#fff", fontSize: "11px", fontWeight: 700 }}>Lenient Tree</p>
             </motion.div>
 
             {/* The photo itself */}

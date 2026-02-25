@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const experiences = [
   {
@@ -36,6 +37,7 @@ const experiences = [
 ];
 
 const ExperiencePage = () => {
+  const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -80,9 +82,9 @@ const ExperiencePage = () => {
 
       {/* STICKY AREA */}
       <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
-        
+
         {/* LEFT SIDE CONTENT */}
-        <div className="w-full md:w-[45%] h-full flex flex-col justify-center px-8 md:pl-24 relative z-10">
+        <div className="w-full md:w-[45%] h-full flex flex-col justify-center px-6 md:pl-24 relative z-10">
           <div className="relative w-full max-w-xl h-[70vh]">
             {experiences.map((exp, index) => {
               const start = index / experiences.length;
@@ -115,10 +117,10 @@ const ExperiencePage = () => {
                     </div>
 
                     <div className="space-y-3">
-                      <h2 className="text-white font-['Orbitron'] font-black leading-[1.1] text-5xl">
+                      <h2 className="text-white font-['Orbitron'] font-black leading-[1.1] text-3xl md:text-5xl">
                         {exp.title}
                       </h2>
-                      <h3 className="text-white font-['Orbitron'] font-bold opacity-70 text-2xl">
+                      <h3 className="text-white font-['Orbitron'] font-bold opacity-70 text-xl md:text-2xl">
                         {exp.company}
                       </h3>
                     </div>
@@ -150,67 +152,69 @@ const ExperiencePage = () => {
           </div>
         </div>
 
-        {/* RIGHT SIDE — SMALLER WHEEL */}
-        <div className="absolute right-[-35vw] top-1/2 -translate-y-1/2 w-[75vw] h-[75vw] pointer-events-none">
-          <motion.div
-            style={{ rotate: rotation }}
-            className="relative w-full h-full rounded-full"
-          >
-            {experiences.map((exp, index) => {
-              const angle = index * gap;
+        {/* RIGHT SIDE — SMALLER WHEEL (Hidden on mobile) */}
+        {!isMobile && (
+          <div className="absolute right-[-35vw] top-1/2 -translate-y-1/2 w-[75vw] h-[75vw] pointer-events-none">
+            <motion.div
+              style={{ rotate: rotation }}
+              className="relative w-full h-full rounded-full"
+            >
+              {experiences.map((exp, index) => {
+                const angle = index * gap;
 
-              return (
-                <div
-                  key={exp.id}
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    width: "38vw",
-                    height: "26vw",
-                    maxWidth: "650px",
-                    maxHeight: "450px",
-                    transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(35vw)`,
-                  }}
-                >
-                  <motion.div
+                return (
+                  <div
+                    key={exp.id}
                     style={{
-                      rotate: useTransform(rotation, (r) => -r - angle),
-                      background: `linear-gradient(135deg, ${exp.color}44, transparent)`,
-                      backdropFilter: "blur(30px)",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      width: "38vw",
+                      height: "26vw",
+                      maxWidth: "650px",
+                      maxHeight: "450px",
+                      transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(35vw)`,
                     }}
-                    className="w-full h-full rounded-[50px] overflow-hidden relative p-[2px]"
                   >
-                    <div className="w-full h-full rounded-[48px] bg-[#0a0a0a]/90 border border-white/10 relative overflow-hidden">
-                      
-                      <div className="absolute inset-0 p-12 flex flex-col justify-between">
-                        <div className="flex justify-between items-start">
-                          <div
-                            className="w-20 h-20 rounded-[24px] flex items-center justify-center text-4xl"
-                            style={{
-                              background: "rgba(255,255,255,0.05)",
-                              border: "1px solid rgba(255,255,255,0.1)",
-                            }}
-                          >
-                            {exp.icon}
+                    <motion.div
+                      style={{
+                        rotate: useTransform(rotation, (r) => -r - angle),
+                        background: `linear-gradient(135deg, ${exp.color}44, transparent)`,
+                        backdropFilter: "blur(30px)",
+                      }}
+                      className="w-full h-full rounded-[50px] overflow-hidden relative p-[2px]"
+                    >
+                      <div className="w-full h-full rounded-[48px] bg-[#0a0a0a]/90 border border-white/10 relative overflow-hidden">
+
+                        <div className="absolute inset-0 p-12 flex flex-col justify-between">
+                          <div className="flex justify-between items-start">
+                            <div
+                              className="w-20 h-20 rounded-[24px] flex items-center justify-center text-4xl"
+                              style={{
+                                background: "rgba(255,255,255,0.05)",
+                                border: "1px solid rgba(255,255,255,0.1)",
+                              }}
+                            >
+                              {exp.icon}
+                            </div>
+
+                            <div className="font-['Orbitron'] text-white/10 text-6xl font-black italic">
+                              0{exp.id}
+                            </div>
                           </div>
 
-                          <div className="font-['Orbitron'] text-white/10 text-6xl font-black italic">
-                            0{exp.id}
-                          </div>
+                          <h4 className="text-white font-['Orbitron'] text-3xl font-bold">
+                            {exp.company}
+                          </h4>
                         </div>
-
-                        <h4 className="text-white font-['Orbitron'] text-3xl font-bold">
-                          {exp.company}
-                        </h4>
                       </div>
-                    </div>
-                  </motion.div>
-                </div>
-              );
-            })}
-          </motion.div>
-        </div>
+                    </motion.div>
+                  </div>
+                );
+              })}
+            </motion.div>
+          </div>
+        )}
       </div>
     </div>
   );

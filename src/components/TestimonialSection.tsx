@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const testimonials = [
   {
@@ -65,6 +66,7 @@ interface CardProps {
 }
 
 const Card = ({ testimonial, index, scrollProgress }: CardProps) => {
+  const isMobile = useIsMobile();
   const total = testimonials.length;
 
   // This card becomes "active" across its own slice of the scroll range
@@ -88,12 +90,12 @@ const Card = ({ testimonial, index, scrollProgress }: CardProps) => {
     <div
       style={{
         position: "absolute",
-        width: "300px",
-        height: "380px",
+        width: isMobile ? "280px" : "300px",
+        height: isMobile ? "350px" : "380px",
         top: "50%",
         left: "50%",
-        marginLeft: "-150px",
-        marginTop: "-190px",
+        marginLeft: isMobile ? "-140px" : "-150px",
+        marginTop: isMobile ? "-175px" : "-190px",
         transform: `translate(${spreadX}px, calc(${spreadY}px + ${y}px)) rotate(${tilt}deg)`,
         opacity,
         zIndex: index + 1,
@@ -249,6 +251,7 @@ const Card = ({ testimonial, index, scrollProgress }: CardProps) => {
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
 const TestimonialSection = () => {
+  const isMobile = useIsMobile();
   const outerRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isFixed, setIsFixed] = useState(false);
@@ -347,10 +350,10 @@ const TestimonialSection = () => {
               transition={{ duration: 0.6 }}
               style={{
                 color: "#fff",
-                fontSize: "clamp(2rem, 6vw, 5rem)",
+                fontSize: "clamp(2rem, 8vw, 5rem)",
                 fontWeight: 900,
-                letterSpacing: "0.4em",
-                marginBottom: "12px",
+                letterSpacing: "0.2em",
+                marginBottom: "8px",
                 textAlign: "center",
                 position: "relative",
                 zIndex: 2,
@@ -379,8 +382,8 @@ const TestimonialSection = () => {
             <div
               style={{
                 position: "relative",
-                width: "320px",
-                height: "420px",
+                width: isMobile ? "280px" : "320px",
+                height: isMobile ? "380px" : "420px",
               }}
             >
               {testimonials.map((t, i) => (

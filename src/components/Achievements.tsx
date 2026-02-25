@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const achievements = [
   { text: "ENTREPRENEUR", clickable: true, route: "/entrepreneur", icon: "🚀" },
@@ -32,6 +33,8 @@ const AchievementCard = ({
     }
   };
 
+  const isMobile = useIsMobile();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -43,8 +46,9 @@ const AchievementCard = ({
       onClick={() => { if (item.clickable && item.route) window.location.href = item.route; }}
       style={{
         position: "relative",
-        width: "220px",
-        height: "600px",
+        width: isMobile ? "100%" : "220px",
+        maxWidth: isMobile ? "320px" : "220px",
+        height: isMobile ? "400px" : "600px",
         flexShrink: 0,
         borderRadius: "22px",
         overflow: "hidden",
@@ -144,9 +148,9 @@ const AchievementCard = ({
       >
         <span
           style={{
-            writingMode: "vertical-rl",
-            transform: "rotate(180deg)",
-            fontSize: "42px",
+            writingMode: isMobile ? "horizontal-tb" : "vertical-rl",
+            transform: isMobile ? "none" : "rotate(180deg)",
+            fontSize: isMobile ? "28px" : "42px",
             fontWeight: 900,
             letterSpacing: "0.22em",
             color: hovered ? "#ffffff" : item.clickable ? "#ffffff" : "#cfcfcf",
@@ -192,6 +196,7 @@ const AchievementCard = ({
 
 // ── Section ───────────────────────────────────────────────────────────────────
 const Achievements = () => {
+  const isMobile = useIsMobile();
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
@@ -199,7 +204,7 @@ const Achievements = () => {
     <motion.section
       ref={sectionRef}
       id="achievements"
-      className="w-full py-24 px-6 flex justify-center relative overflow-hidden"
+      className="w-full pt-32 pb-24 md:py-24 px-6 flex justify-center relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: isInView ? 1 : 0 }}
       transition={{ duration: 0.8 }}
@@ -237,17 +242,20 @@ const Achievements = () => {
       <div className="max-w-6xl w-full relative z-10">
         {/* Title */}
         <motion.h2
-          className="font-display font-bold text-white mb-16 text-center"
+          className="font-display font-bold text-white mb-8 md:mb-16 text-center"
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: isInView ? 0 : -50, opacity: isInView ? 1 : 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          style={{ fontSize: "64px", letterSpacing: "0.18em" }}
+          style={{
+            fontSize: "clamp(1.5rem, 7vw, 64px)",
+            letterSpacing: isMobile ? "0.1em" : "0.18em"
+          }}
         >
           ACHIEVEMENTS
           <motion.div
             className="h-1 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full mx-auto mt-4"
             initial={{ width: 0 }}
-            animate={{ width: isInView ? "200px" : 0 }}
+            animate={{ width: isInView ? "min(200px, 60%)" : 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           />
         </motion.h2>

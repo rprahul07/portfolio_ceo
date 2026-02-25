@@ -27,7 +27,7 @@ const Navbar = () => {
         className={`fixed top-6 left-0 right-0 mx-auto z-50 w-[92%] max-w-[1200px] transition-all duration-500 ${scrolled ? 'top-4' : 'top-6'}`}
       >
         <motion.div
-          className="relative flex items-center justify-center px-8 py-4 rounded-full border backdrop-blur-xl overflow-hidden gap-8"
+          className="relative flex items-center justify-between md:justify-center px-4 py-2 md:px-8 md:py-4 rounded-full border backdrop-blur-xl overflow-hidden gap-4 md:gap-8"
           style={{
             backgroundColor: scrolled ? "hsl(260 20% 8% / 0.9)" : "hsl(260 20% 5% / 0.6)",
             borderColor: "rgba(139, 92, 246, 0.3)"
@@ -52,7 +52,7 @@ const Navbar = () => {
           >
             <Link
               to="/"
-              className="relative font-display text-xl font-bold tracking-[0.25em] text-foreground transition-all duration-300 z-10"
+              className="relative font-display text-lg md:text-xl font-bold tracking-[0.15em] md:tracking-[0.25em] text-foreground transition-all duration-300 z-10 flex items-center"
             >
               <motion.span
                 className="text-primary inline-block"
@@ -173,7 +173,7 @@ const Navbar = () => {
           </ul>
 
           {/* Contact Button */}
-          <motion.div className="relative z-10">
+          <motion.div className="relative z-10 hidden md:block">
             <motion.a
               href="/#contact"
               className="font-display text-sm font-semibold tracking-[0.15em] px-6 py-2 rounded-full border relative overflow-hidden group"

@@ -1,5 +1,6 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Assets from EventDignitaries
 import photo1 from "@/assets/event-dignitaries/photo_1_2026-02-14_23-27-32.jpg";
@@ -132,20 +133,30 @@ const initialCards = [
   },
 ];
 
-const slots = [
-  { x: -520, scale: 0.8, opacity: 0.3, z: 0 },
-  { x: -260, scale: 0.9, opacity: 0.6, z: 1 },
-  { x: 0, scale: 1.15, opacity: 1, z: 3 }, // front
-  { x: 260, scale: 0.9, opacity: 0.6, z: 1 },
-  { x: 520, scale: 0.8, opacity: 0.3, z: 0 },
-];
+// Removed static slots definition
 
 const Event = () => {
+  const isMobile = useIsMobile();
   const [cards, setCards] = useState(initialCards);
   const [blurCardId, setBlurCardId] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
+
+  // Responsive slots
+  const slots = isMobile ? [
+    { x: -160, scale: 0.6, opacity: 0.2, z: 0 },
+    { x: -80, scale: 0.8, opacity: 0.6, z: 1 },
+    { x: 0, scale: 1.05, opacity: 1, z: 3 }, // front
+    { x: 80, scale: 0.8, opacity: 0.6, z: 1 },
+    { x: 160, scale: 0.6, opacity: 0.2, z: 0 },
+  ] : [
+    { x: -520, scale: 0.8, opacity: 0.3, z: 0 },
+    { x: -260, scale: 0.9, opacity: 0.6, z: 1 },
+    { x: 0, scale: 1.15, opacity: 1, z: 3 }, // front
+    { x: 260, scale: 0.9, opacity: 0.6, z: 1 },
+    { x: 520, scale: 0.8, opacity: 0.3, z: 0 },
+  ];
 
   useEffect(() => {
     if (isPaused) return;
@@ -238,18 +249,18 @@ const Event = () => {
 
       {/* Title */}
       <motion.h1
-        className="font-display text-white mb-28 text-center relative z-10"
+        className="font-display text-white mb-16 md:mb-28 text-center relative z-10"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: isInView ? 0 : -50, opacity: isInView ? 1 : 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
-        style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)", letterSpacing: "0.18em", textTransform: "uppercase" }}
+        style={{ fontSize: "clamp(2rem, 6vw, 3.5rem)", letterSpacing: "0.18em", textTransform: "uppercase" }}
       >
         EVENT DIGNITARY
         {/* Animated underline */}
         <motion.div
           className="h-1 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full mx-auto mt-4"
           initial={{ width: 0 }}
-          animate={{ width: isInView ? "250px" : 0 }}
+          animate={{ width: isInView ? "min(250px, 80%)" : 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         />
       </motion.h1>
@@ -302,7 +313,7 @@ const Event = () => {
                     setBlurCardId(null);
                   }
                 }}
-                className="absolute w-80 h-[560px] rounded-3xl overflow-hidden cursor-pointer"
+                className={`absolute ${isMobile ? 'w-56 h-[400px]' : 'w-80 h-[560px]'} rounded-3xl overflow-hidden cursor-pointer`}
                 style={{
                   zIndex: slot.z,
                   transformStyle: "preserve-3d"

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // ── Social links data ─────────────────────────────────────────────────────────
 
@@ -212,10 +213,11 @@ const SocialCard = ({
 
 // ── Main Contact Section ──────────────────────────────────────────────────────
 const ContactSection = () => {
+  const isMobile = useIsMobile();
   return (
     <section
       id="contact"
-      className="relative w-full min-h-screen overflow-hidden"
+      className="relative w-full min-h-screen overflow-hidden pb-12"
       style={{
         background: `
           radial-gradient(circle at 20% 20%, rgba(0,0,0,0.6), transparent 60%),
@@ -235,49 +237,54 @@ const ContactSection = () => {
 
       {/* Heading */}
       <h1
-        className="absolute top-16 left-16 z-20 text-white font-black tracking-[0.4em]"
-        style={{ fontSize: "5.5rem" }}
+        className="absolute top-12 left-6 md:top-16 md:left-16 z-20 text-white font-black tracking-[0.2em] md:tracking-[0.4em]"
+        style={{ fontSize: "clamp(2.5rem, 12vw, 5.5rem)" }}
       >
         CONTACT
       </h1>
 
-      {/* Diamond Grid */}
-      <div className="absolute top-40 left-1/2 -translate-x-1/2 opacity-60 pointer-events-auto">
-        <div className="flex flex-col space-y-[-20px]">
-          {/* Row 1 */}
-          <div className="flex gap-12">
-            <Diamond /><Diamond /><Diamond /><Diamond /><Diamond /><Diamond />
-          </div>
-          {/* Row 2 */}
-          <div className="flex gap-12 ml-35">
-            <Diamond /><Diamond /><Diamond /><Diamond /><Diamond />
-          </div>
-          {/* Row 3 */}
-          <div className="flex gap-12">
-            <Diamond /><Diamond /><Diamond /><Diamond /><Diamond /><Diamond />
-          </div>
-          {/* Row 4 */}
-          <div className="flex gap-12">
-            <Diamond /><Diamond /><Diamond /><Diamond /><Diamond />
+      {/* Diamond Grid - Hide on mobile */}
+      {!isMobile && (
+        <div className="absolute top-40 left-1/2 -translate-x-1/2 opacity-60 pointer-events-auto">
+          <div className="flex flex-col space-y-[-20px]">
+            {/* Row 1 */}
+            <div className="flex gap-12">
+              <Diamond /><Diamond /><Diamond /><Diamond /><Diamond /><Diamond />
+            </div>
+            {/* Row 2 */}
+            <div className="flex gap-12 ml-35">
+              <Diamond /><Diamond /><Diamond /><Diamond /><Diamond />
+            </div>
+            {/* Row 3 */}
+            <div className="flex gap-12">
+              <Diamond /><Diamond /><Diamond /><Diamond /><Diamond /><Diamond />
+            </div>
+            {/* Row 4 */}
+            <div className="flex gap-12">
+              <Diamond /><Diamond /><Diamond /><Diamond /><Diamond />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Bottom Image Diamonds */}
-      <div className="absolute bottom-24 left-0 right-0 flex justify-center gap-12">
-        <ImageDiamond />
-        <ImageDiamond />
-        <ImageDiamond />
-        <ImageDiamond />
-      </div>
+      {/* Bottom Image Diamonds - Hide on mobile or adjust */}
+      {!isMobile && (
+        <div className="absolute bottom-24 left-0 right-0 flex justify-center gap-12">
+          <ImageDiamond />
+          <ImageDiamond />
+          <ImageDiamond />
+          <ImageDiamond />
+        </div>
+      )}
 
       {/* ── Social Links overlay at bottom ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-30"
+        className={`${isMobile ? 'relative mt-40' : 'absolute bottom-0'} left-0 right-0 z-30`}
         style={{
-          padding: "0 32px 48px",
-          background:
-            "linear-gradient(to top, rgba(45,18,120,0.98) 0%, rgba(45,18,120,0.85) 60%, transparent 100%)",
+          padding: isMobile ? "0 16px 32px" : "0 32px 48px",
+          background: isMobile
+            ? "transparent"
+            : "linear-gradient(to top, rgba(45,18,120,0.98) 0%, rgba(45,18,120,0.85) 60%, transparent 100%)",
         }}
       >
         {/* Label */}
